@@ -11,5 +11,7 @@ public class SymbolicaEditorTarget : TargetRules
 		DefaultBuildSettings = BuildSettingsVersion.V5;
 
 		ExtraModuleNames.AddRange( new string[] { "Symbolica" } );
+		
+		
 	}
 }

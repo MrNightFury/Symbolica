@@ -18,6 +18,8 @@ ATestActor::ATestActor()
 void ATestActor::BeginPlay()
 {
 	Super::BeginPlay();
+	GEngine->AddOnScreenDebugMessage(-1, 5., FColor::Yellow,
+		LexToString(this->ModelData.Get() == nullptr));
 	this->Runtime = UE::NNE::GetRuntime<INNERuntimeCPU>(FString("NNERuntimeORTCpu"));
 	GEngine->AddOnScreenDebugMessage(-1, 5., FColor::Yellow, FString::FromInt((int)this->Runtime->CanCreateModelCPU(this->ModelData)));
 
@@ -35,7 +37,7 @@ void ATestActor::BeginPlay()
 	checkf(InputTensorDescs.Num() == 1, TEXT("The current example supports only models with a single input tensor"));
 	UE::NNE::FSymbolicTensorShape SymbolicInputTensorShape = InputTensorDescs[0].GetShape();
 	checkf(SymbolicInputTensorShape.IsConcrete(), TEXT("The current example supports only models without variable input tensor dimensions"));
-	TArray<UE::NNE::FTensorShape> InputTensorShapes = { UE::NNE::FTensorShape::MakeFromSymbolic(SymbolicInputTensorShape) };
+	TArray InputTensorShapes = { UE::NNE::FTensorShape::MakeFromSymbolic(SymbolicInputTensorShape) };
 
 	ModelInstance->SetInputTensorShapes(InputTensorShapes);
 
@@ -43,7 +45,7 @@ void ATestActor::BeginPlay()
 	checkf(OutputTensorDescs.Num() == 1, TEXT("The current example supports only models with a single output tensor"));
 	UE::NNE::FSymbolicTensorShape SymbolicOutputTensorShape = OutputTensorDescs[0].GetShape();
 	checkf(SymbolicOutputTensorShape.IsConcrete(), TEXT("The current example supports only models without variable output tensor dimensions"));
-	TArray<UE::NNE::FTensorShape> OutputTensorShapes = { UE::NNE::FTensorShape::MakeFromSymbolic(SymbolicOutputTensorShape) };
+	TArray OutputTensorShapes = { UE::NNE::FTensorShape::MakeFromSymbolic(SymbolicOutputTensorShape) };
 
 	
 	this->InputData.SetNumZeroed(InputTensorShapes[0].Volume());
