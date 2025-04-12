@@ -29,5 +29,5 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure = false)
 	void PrintDebugInfo();
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = "NNModel", meta = (ExpandBoolAsExecs="bSuccess"))
-	int32 GetDrawnSymbol(TArray<float> InputData, bool& bSuccess, FString& Error) const;
+	int32 GetDrawnSymbol(TArray<FVector2D> InputData, bool& bSuccess, FString& Error) const;
 };

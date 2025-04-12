@@ -17,7 +17,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	static int MaxArg(TArray<float> Array);
 
-	static TArray<FVector> GetEvenlySpacedPoints(USplineComponent Spline, int PointsNum);
+	UFUNCTION(BlueprintCallable)
+	static TArray<FVector> GetEvenlySpacedPoints(USplineComponent* Spline, int PointsNum);
 	
 	UFUNCTION(BlueprintPure, Category = "Utils")
 	static TArray<float> Flatten(TArray<FVector> Array);
@@ -26,10 +27,10 @@ public:
 	static TArray<float> Flatten2D(TArray<FVector2D> Array);
 
 	UFUNCTION(BlueprintCallable, meta=(ReturnDisplayName="Normal"))
-	static FVector GetBestFitPlane(TArray<FVector> Points, double& D, FVector& Centroid);
+	static FVector GetBestFitPlane_old(TArray<FVector> Points, double& D, FVector& Centroid);
 
 	UFUNCTION(BlueprintCallable, meta=(ReturnDisplayName="Normal"))
-	static FVector GetBestFitPlaneMinSquares(TArray<FVector> Points, double& D, FVector& Centroid);
+	static FVector GetBestFitPlane(TArray<FVector> Points, double& D, FVector& Centroid);
 
 	UFUNCTION(BlueprintCallable)
 	static FVector GetCentroid(TArray<FVector> Points);

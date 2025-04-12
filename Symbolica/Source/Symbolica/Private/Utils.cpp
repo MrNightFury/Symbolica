@@ -47,7 +47,7 @@ FVector UUtils::GetCentroid(TArray<FVector> Points) {
 }
 
 
-FVector UUtils::GetBestFitPlane(TArray<FVector> Points, double& D, FVector& Centroid) {
+FVector UUtils::GetBestFitPlane_old(TArray<FVector> Points, double& D, FVector& Centroid) {
 	Centroid = FVector::ZeroVector;
 	if (Points.Num() == 0) {
 		D = 0;
@@ -99,7 +99,7 @@ FVector UUtils::GetBestFitPlane(TArray<FVector> Points, double& D, FVector& Cent
 	return Normal;
 }
 
-FVector UUtils::GetBestFitPlaneMinSquares(TArray<FVector> Points, double& D, FVector& Centroid) {
+FVector UUtils::GetBestFitPlane(TArray<FVector> Points, double& D, FVector& Centroid) {
 	Centroid = FVector::ZeroVector;
 	if (Points.Num() < 3) {
 		D = 0;
@@ -217,9 +217,6 @@ TArray<FVector2D> UUtils::ProjectPointsToPlane(FVector Normal, double D, TArray<
 		FVector FirstAxis = FVector::CrossProduct(Arbitrary, Normal).GetSafeNormal();
 		FVector SecondAxis = FVector::CrossProduct(Normal, FirstAxis).GetSafeNormal();
 
-		// UE_LOG(LogTemp, Error, TEXT("%f, %f, %f"), FirstAxis.X, FirstAxis.Y, FirstAxis.Z);
-		// UE_LOG(LogTemp, Error, TEXT("%f, %f, %f"), SecondAxis.X, SecondAxis.Y, SecondAxis.Z);
-
 		double FirstAxisProjected = FVector::DotProduct(FirstAxis, FVector(0, 0, 1));
 		double SecondAxisProjected = FVector::DotProduct(SecondAxis, FVector(0, 0, 1));
 		
@@ -284,13 +281,15 @@ float UUtils::GetAverageCoord(const FVector& Vector) {
 	return (Vector.X + Vector.Y + Vector.Z) / 3;
 }
 
-TArray<FVector> UUtils::GetEvenlySpacedPoints(USplineComponent Spline, int PointsNum) {
+
+TArray<FVector> UUtils::GetEvenlySpacedPoints(USplineComponent* Spline, int PointsNum) {
 	TArray<FVector> Points;
 	if (PointsNum <= 0) {
         return Points;
     }
-	const float Step = Spline.GetSplineLength() / (PointsNum - 1);
-	for (int i = 0; i <= PointsNum; i++) {
-		Points.Add(Spline.GetLocationAtDistanceAlongSpline(Step * i, ESplineCoordinateSpace::World));
+	const float Step = Spline->GetSplineLength() / (PointsNum - 1);
+	for (int i = 0; i < PointsNum; i++) {
+		Points.Add(Spline->GetLocationAtDistanceAlongSpline(Step * i, ESplineCoordinateSpace::World));
 	}
+	return Points;
 }

@@ -22,17 +22,18 @@ bool UCastModelComponent::IsModelReady() const {
 }
 
 
-int32 UCastModelComponent::GetDrawnSymbol(const TArray<float> InputData, bool& bSuccess, FString& Error) const {
+int32 UCastModelComponent::GetDrawnSymbol(const TArray<FVector2D> InputData, bool& bSuccess, FString& Error) const {
+	const TArray<float> FlattenedData = UUtils::Flatten2D(InputData);
 	if (InputData.Num() <= 0) {
 		bSuccess = false;
 		Error = "Input data is empty";
 		return -1;
 	}
 	
-	// TArray<float> FloatArray = UUtils::Flatten(InputData);
+	// TArray<float> FloatArray = UUtils::Flatten(FlattenedData);
 	TArray<float> Result;
 	// try {
-		Result = this->ModelHelper->RunModelSync(InputData);
+		Result = this->ModelHelper->RunModelSync(FlattenedData);
 	// } catch (std::runtime_error e) {
 	// 	bSuccess = false;
 	// 	Error = e.what();
