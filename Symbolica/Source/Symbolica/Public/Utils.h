@@ -14,8 +14,11 @@ UCLASS()
 class SYMBOLICA_API UUtils : public UBlueprintFunctionLibrary {
 	GENERATED_BODY()
 public:
+	UFUNCTION(BlueprintCallable)
 	static int MaxArg(TArray<float> Array);
 
+	static TArray<FVector> GetEvenlySpacedPoints(USplineComponent Spline, int PointsNum);
+	
 	UFUNCTION(BlueprintPure, Category = "Utils")
 	static TArray<float> Flatten(TArray<FVector> Array);
 	
@@ -38,8 +41,16 @@ public:
 	static double CalculatePlaneFitMSE(FVector Normal, double D, TArray<FVector> Points, double& MaxError);
 
 	UFUNCTION(BlueprintCallable)
-	static TArray<FVector2D> ProjectPointsToPlane(FVector Normal, double D, TArray<FVector> Points, FVector Right, TArray<FVector>& ProjectedPoints, FVector& PlaneOrigin, FVector Centroid);
+	static TArray<FVector2D> ProjectPointsToPlane(FVector Normal, double D, TArray<FVector> Points, FVector Right,
+											TArray<FVector>& ProjectedPoints, FVector& PlaneOrigin, FVector Centroid);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, meta=(CompactNodeTitle="Max int"))
 	static int GetMaxInt();
+
+	UFUNCTION(BlueprintCallable, meta = (WorldContext = "World"))
+	static TArray<FHitResult> TraceCone(const UObject* World, FVector Origin, FVector Direction, float Angle, float Length,
+										int Steps, TArray<TEnumAsByte<EObjectTypeQuery>> CollisionChannel);
+
+	UFUNCTION(BlueprintPure)
+	static float GetAverageCoord(const FVector& Vector);
 };

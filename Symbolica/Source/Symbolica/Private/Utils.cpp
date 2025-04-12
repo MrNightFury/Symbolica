@@ -5,6 +5,7 @@
 
 #include "FileHelper.h"
 #include "MatrixTypes.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 int UUtils::MaxArg(TArray<float> Array) {
 	int MaxIndex = 0;
@@ -253,4 +254,43 @@ TArray<FVector2D> UUtils::ProjectPointsToPlane(FVector Normal, double D, TArray<
 
 int UUtils::GetMaxInt() {
 	return MAX_int32;
+}
+
+TArray<FHitResult> UUtils::TraceCone(const UObject* World, FVector Origin, FVector Direction, float Angle, float Length, int NumSteps, TArray<TEnumAsByte<EObjectTypeQuery>> TraceChannel) {
+	TArray<FHitResult> OutHits;
+    
+	if (!World) return OutHits;
+
+	for (int i = 0; i < NumSteps; i++) {
+		const float Distance = (i / static_cast<float>(NumSteps)) * Length;
+		const float CurrentRadius = FMath::Tan(FMath::DegreesToRadians(Angle)) * Distance;
+        
+		const FVector TraceLocation = Origin + (Direction * Distance);
+		TArray<FHitResult> SphereHits;
+
+		UKismetSystemLibrary::SphereTraceMultiForObjects(World, 
+			TraceLocation, TraceLocation, CurrentRadius, 
+			TraceChannel, false, TArray<AActor*>(), 
+			EDrawDebugTrace::None, SphereHits, true);
+
+		OutHits.Append(SphereHits);
+	}
+
+	return OutHits;
+}
+
+
+float UUtils::GetAverageCoord(const FVector& Vector) {
+	return (Vector.X + Vector.Y + Vector.Z) / 3;
+}
+
+TArray<FVector> UUtils::GetEvenlySpacedPoints(USplineComponent Spline, int PointsNum) {
+	TArray<FVector> Points;
+	if (PointsNum <= 0) {
+        return Points;
+    }
+	const float Step = Spline.GetSplineLength() / (PointsNum - 1);
+	for (int i = 0; i <= PointsNum; i++) {
+		Points.Add(Spline.GetLocationAtDistanceAlongSpline(Step * i, ESplineCoordinateSpace::World));
+	}
 }
