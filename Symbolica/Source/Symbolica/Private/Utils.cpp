@@ -33,7 +33,7 @@ TArray<float> UUtils::Flatten2D(TArray<FVector2D> Array) {
 	for (const FVector2D& Vec : Array) {
 		FloatArray.Add(Vec.X); FloatArray.Add(Vec.Y);
 	}
-	UFileHelper::WriteToFile("Test" + FString::FromInt(Counter++), FString::JoinBy(FloatArray, TEXT(", "), [](float Value) { return FString::SanitizeFloat(Value); }));
+	// UFileHelper::WriteToFile("Test" + FString::FromInt(Counter++), FString::JoinBy(FloatArray, TEXT(", "), [](float Value) { return FString::SanitizeFloat(Value); }));
 	return FloatArray;
 }
 
@@ -253,9 +253,9 @@ int UUtils::GetMaxInt() {
 	return MAX_int32;
 }
 
-TArray<FHitResult> UUtils::TraceCone(const UObject* World, FVector Origin, FVector Direction, float Angle, float Length, int NumSteps, TArray<TEnumAsByte<EObjectTypeQuery>> TraceChannel) {
+TArray<FHitResult> UUtils::TraceCone(const UObject* World, FVector Origin, FVector Direction, float Angle, float Length,
+									 int NumSteps, TArray<TEnumAsByte<EObjectTypeQuery>> TraceChannel) {
 	TArray<FHitResult> OutHits;
-    
 	if (!World) return OutHits;
 
 	for (int i = 0; i < NumSteps; i++) {
@@ -272,7 +272,6 @@ TArray<FHitResult> UUtils::TraceCone(const UObject* World, FVector Origin, FVect
 
 		OutHits.Append(SphereHits);
 	}
-
 	return OutHits;
 }
 
@@ -282,14 +281,15 @@ float UUtils::GetAverageCoord(const FVector& Vector) {
 }
 
 
-TArray<FVector> UUtils::GetEvenlySpacedPoints(USplineComponent* Spline, int PointsNum) {
+TArray<FVector> UUtils::GetEvenlySpacedPoints(USplineComponent* Spline, const int PointsNum) {
+	UE_LOG(LogTemp, Log, TEXT("ASDAD"));
 	TArray<FVector> Points;
 	if (PointsNum <= 0) {
         return Points;
     }
 	const float Step = Spline->GetSplineLength() / (PointsNum - 1);
 	for (int i = 0; i < PointsNum; i++) {
-		Points.Add(Spline->GetLocationAtDistanceAlongSpline(Step * i, ESplineCoordinateSpace::World));
+		Points.Add(Spline->GetLocationAtDistanceAlongSpline(Step * i, ESplineCoordinateSpace::Local));
 	}
 	return Points;
 }
