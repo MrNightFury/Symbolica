@@ -1,7 +1,7 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "CastModelComponent.h"
+#include "NNModel/CastModelComponent.h"
 #include "Symbolica/Public/Utils.h"
 
 UCastModelComponent::UCastModelComponent() {
@@ -30,7 +30,6 @@ int32 UCastModelComponent::GetDrawnSymbol(const TArray<FVector2D> InputData, boo
 		return -1;
 	}
 	
-	// TArray<float> FloatArray = UUtils::Flatten(FlattenedData);
 	TArray<float> Result;
 	// try {
 		Result = this->ModelHelper->RunModelSync(FlattenedData);

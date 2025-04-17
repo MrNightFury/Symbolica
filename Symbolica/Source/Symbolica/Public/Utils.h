@@ -16,9 +16,6 @@ class SYMBOLICA_API UUtils : public UBlueprintFunctionLibrary {
 public:
 	UFUNCTION(BlueprintCallable)
 	static int MaxArg(TArray<float> Array);
-
-	UFUNCTION(BlueprintCallable)
-	static TArray<FVector> GetEvenlySpacedPoints(USplineComponent* Spline, int PointsNum);
 	
 	UFUNCTION(BlueprintPure, Category = "Utils")
 	static TArray<float> Flatten(TArray<FVector> Array);
@@ -29,9 +26,6 @@ public:
 	UFUNCTION(BlueprintCallable, meta=(ReturnDisplayName="Normal"))
 	static FVector GetBestFitPlane_old(TArray<FVector> Points, double& D, FVector& Centroid);
 
-	UFUNCTION(BlueprintCallable, meta=(ReturnDisplayName="Normal"))
-	static FVector GetBestFitPlane(TArray<FVector> Points, double& D, FVector& Centroid);
-
 	UFUNCTION(BlueprintCallable)
 	static FVector GetCentroid(TArray<FVector> Points);
 
@@ -40,10 +34,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	static double CalculatePlaneFitMSE(FVector Normal, double D, TArray<FVector> Points, double& MaxError);
-
-	UFUNCTION(BlueprintCallable)
-	static TArray<FVector2D> ProjectPointsToPlane(FVector Normal, double D, TArray<FVector> Points, FVector Right,
-											TArray<FVector>& ProjectedPoints, FVector& PlaneOrigin, FVector Centroid);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, meta=(CompactNodeTitle="Max int"))
 	static int GetMaxInt();

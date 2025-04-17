@@ -40,6 +40,10 @@
 				"Linux",
 				"Android"
 			]
+		},
+		{
+			"Name": "GameplayStateTree",
+			"Enabled": true
 		}
 	],
 	"TargetPlatforms": [
