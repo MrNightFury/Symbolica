@@ -8,7 +8,10 @@ public class Symbolica : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "NNE" });
+		PublicDependencyModuleNames.AddRange(new string[]
+		{
+			"Core", "CoreUObject", "Engine", "InputCore", "NNE", "GameplayTags"
+		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 		
